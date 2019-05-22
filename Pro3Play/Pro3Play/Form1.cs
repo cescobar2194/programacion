@@ -142,5 +142,23 @@ namespace Pro3Play
             Reproductor repro = new Reproductor();
             repro.ShowDialog();
         }
+
+        private void guardarPortadaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string nombrearchivo;
+            if(openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Image f = Image.FromFile(openFileDialog1.FileName);
+                pictureBox2.Image = f;
+                nombrearchivo = openFileDialog1.FileName.ToString();
+                f.Save("C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\1.png");
+                //f.Save(nombrearchivo);
+            }
+        }
     }
 }

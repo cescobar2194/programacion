@@ -36,11 +36,13 @@
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.descargarVídeoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.listasDeReproducciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.misListasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.agregarNuevaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.reproductorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tmrVideo = new System.Windows.Forms.Timer(this.components);
             this.label4 = new System.Windows.Forms.Label();
             this.ckbAudio = new System.Windows.Forms.CheckBox();
-            this.listasDeReproducciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.reproductorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -106,6 +108,34 @@
             this.descargarVídeoToolStripMenuItem.Text = "Biblioteca";
             this.descargarVídeoToolStripMenuItem.Click += new System.EventHandler(this.descargarVídeoToolStripMenuItem_Click);
             // 
+            // listasDeReproducciónToolStripMenuItem
+            // 
+            this.listasDeReproducciónToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.misListasToolStripMenuItem,
+            this.agregarNuevaToolStripMenuItem});
+            this.listasDeReproducciónToolStripMenuItem.Name = "listasDeReproducciónToolStripMenuItem";
+            this.listasDeReproducciónToolStripMenuItem.Size = new System.Drawing.Size(141, 20);
+            this.listasDeReproducciónToolStripMenuItem.Text = "Listas de Reproducción";
+            // 
+            // misListasToolStripMenuItem
+            // 
+            this.misListasToolStripMenuItem.Name = "misListasToolStripMenuItem";
+            this.misListasToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.misListasToolStripMenuItem.Text = "Mis Listas";
+            // 
+            // agregarNuevaToolStripMenuItem
+            // 
+            this.agregarNuevaToolStripMenuItem.Name = "agregarNuevaToolStripMenuItem";
+            this.agregarNuevaToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.agregarNuevaToolStripMenuItem.Text = "Agregar nueva";
+            // 
+            // reproductorToolStripMenuItem
+            // 
+            this.reproductorToolStripMenuItem.Name = "reproductorToolStripMenuItem";
+            this.reproductorToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
+            this.reproductorToolStripMenuItem.Text = "Reproductor";
+            this.reproductorToolStripMenuItem.Click += new System.EventHandler(this.reproductorToolStripMenuItem_Click);
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -119,22 +149,10 @@
             this.ckbAudio.AutoSize = true;
             this.ckbAudio.Location = new System.Drawing.Point(41, 243);
             this.ckbAudio.Name = "ckbAudio";
-            this.ckbAudio.Size = new System.Drawing.Size(164, 17);
+            this.ckbAudio.Size = new System.Drawing.Size(79, 17);
             this.ckbAudio.TabIndex = 7;
-            this.ckbAudio.Text = "Eliminar después de convertir";
+            this.ckbAudio.Text = "Solo audio.";
             this.ckbAudio.UseVisualStyleBackColor = true;
-            // 
-            // listasDeReproducciónToolStripMenuItem
-            // 
-            this.listasDeReproducciónToolStripMenuItem.Name = "listasDeReproducciónToolStripMenuItem";
-            this.listasDeReproducciónToolStripMenuItem.Size = new System.Drawing.Size(141, 20);
-            this.listasDeReproducciónToolStripMenuItem.Text = "Listas de Reproducción";
-            // 
-            // reproductorToolStripMenuItem
-            // 
-            this.reproductorToolStripMenuItem.Name = "reproductorToolStripMenuItem";
-            this.reproductorToolStripMenuItem.Size = new System.Drawing.Size(85, 20);
-            this.reproductorToolStripMenuItem.Text = "Reproductor";
             // 
             // pictureBox1
             // 
@@ -186,6 +204,8 @@
         private System.Windows.Forms.ToolStripMenuItem listasDeReproducciónToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem reproductorToolStripMenuItem;
         private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripMenuItem misListasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem agregarNuevaToolStripMenuItem;
     }
 }
 

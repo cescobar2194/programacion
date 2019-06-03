@@ -36,6 +36,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.descargarVídeoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.guardarPortadaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.listasDeReproducciónToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.misListasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.agregarNuevaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -44,10 +45,8 @@
             this.label4 = new System.Windows.Forms.Label();
             this.ckbAudio = new System.Windows.Forms.CheckBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.guardarPortadaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.button2 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -115,6 +114,13 @@
             this.descargarVídeoToolStripMenuItem.Text = "Biblioteca";
             this.descargarVídeoToolStripMenuItem.Click += new System.EventHandler(this.descargarVídeoToolStripMenuItem_Click);
             // 
+            // guardarPortadaToolStripMenuItem
+            // 
+            this.guardarPortadaToolStripMenuItem.Name = "guardarPortadaToolStripMenuItem";
+            this.guardarPortadaToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
+            this.guardarPortadaToolStripMenuItem.Text = "Guardar portada";
+            this.guardarPortadaToolStripMenuItem.Click += new System.EventHandler(this.guardarPortadaToolStripMenuItem_Click);
+            // 
             // listasDeReproducciónToolStripMenuItem
             // 
             this.listasDeReproducciónToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -154,6 +160,8 @@
             // ckbAudio
             // 
             this.ckbAudio.AutoSize = true;
+            this.ckbAudio.Checked = true;
+            this.ckbAudio.CheckState = System.Windows.Forms.CheckState.Checked;
             this.ckbAudio.Location = new System.Drawing.Point(41, 243);
             this.ckbAudio.Name = "ckbAudio";
             this.ckbAudio.Size = new System.Drawing.Size(79, 17);
@@ -171,41 +179,25 @@
             this.pictureBox1.TabIndex = 8;
             this.pictureBox1.TabStop = false;
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.Title = "Seleccionar portada";
+            // 
             // pictureBox2
             // 
             this.pictureBox2.Location = new System.Drawing.Point(321, 221);
             this.pictureBox2.Name = "pictureBox2";
             this.pictureBox2.Size = new System.Drawing.Size(111, 73);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 9;
             this.pictureBox2.TabStop = false;
-            // 
-            // guardarPortadaToolStripMenuItem
-            // 
-            this.guardarPortadaToolStripMenuItem.Name = "guardarPortadaToolStripMenuItem";
-            this.guardarPortadaToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
-            this.guardarPortadaToolStripMenuItem.Text = "Guardar portada";
-            this.guardarPortadaToolStripMenuItem.Click += new System.EventHandler(this.guardarPortadaToolStripMenuItem_Click);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(253, 262);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(62, 34);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "Cargar";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
+            this.pictureBox2.Click += new System.EventHandler(this.pictureBox2_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(474, 306);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.pictureBox2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.ckbAudio);
@@ -217,6 +209,8 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MaximumSize = new System.Drawing.Size(490, 345);
+            this.MinimumSize = new System.Drawing.Size(490, 345);
             this.Name = "Form1";
             this.Text = "Convertir nuevo Vídeo";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -246,9 +240,8 @@
         private System.Windows.Forms.ToolStripMenuItem misListasToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem agregarNuevaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem guardarPortadaToolStripMenuItem;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Button button2;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.PictureBox pictureBox2;
     }
 }
 

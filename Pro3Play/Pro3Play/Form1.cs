@@ -29,6 +29,7 @@ namespace Pro3Play
 
         private void button1_Click(object sender, EventArgs e)
         {
+            LeerJson();
             if (txtURL.Text == "")
             {
                 MessageBox.Show("Por favor proporcione la URL del vídeo.");
@@ -41,7 +42,17 @@ namespace Pro3Play
         private async Task MainAsync()
         {
             Biblioteca bib = new Biblioteca();
-
+            int i = Biblio.Count() + 1;
+            string nombrearchivo;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Image f = Image.FromFile(openFileDialog1.FileName);
+                pictureBox2.Image = f;
+                nombrearchivo = openFileDialog1.FileName.ToString();
+                bib.Portada = "C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\" + i + ".png";
+                f.Save("C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\" + i + ".png");
+                //f.Save(nombrearchivo);
+            }
             //Nuevo Cliente de YouTube
             var client = new YoutubeClient();
             //Lee la URL de youtube que le escribimos en el textbox.
@@ -86,7 +97,7 @@ namespace Pro3Play
             //Se puede incluir un checkbox para indicar que de una vez se reproduzca el MP3
             //if (ckbAutoPlay.Checked) 
             //  ReproducirMP3(SaveMP3File);
-            int i = Biblio.Count() + 1;
+            
             bib.Codigo = i.ToString();
             GuardarBiblioteca(bib);
             return;
@@ -129,7 +140,7 @@ namespace Pro3Play
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            LeerJson();
+            
         }
 
         private void descargarVídeoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -150,15 +161,12 @@ namespace Pro3Play
 
         private void button2_Click(object sender, EventArgs e)
         {
-            string nombrearchivo;
-            if(openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Image f = Image.FromFile(openFileDialog1.FileName);
-                pictureBox2.Image = f;
-                nombrearchivo = openFileDialog1.FileName.ToString();
-                f.Save("C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\1.png");
-                //f.Save(nombrearchivo);
-            }
+             
+        }
+
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

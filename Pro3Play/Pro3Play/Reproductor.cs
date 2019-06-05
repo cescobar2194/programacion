@@ -15,6 +15,7 @@ namespace Pro3Play
 {
     public partial class Reproductor : Form
     {
+        bool pausa = false;
         List<Biblioteca> Biblio = new List<Biblioteca>();
         public Reproductor()
         {
@@ -24,6 +25,7 @@ namespace Pro3Play
 
         private void Reproductor_Load(object sender, EventArgs e)
         {
+            repro.settings.volume = Convert.ToInt32(vScrollBar1.Value);
             repro.uiMode = "invisible";
             LeerJson();
         }
@@ -49,7 +51,7 @@ namespace Pro3Play
         {
             double time = repro.Ctlcontrols.currentPosition; //return always 0 for you, because you pause first and after get the value
             repro.Ctlcontrols.pause();
-            if (time > 0)
+            if (time > 0 && pausa == true)
             {
                 repro.Ctlcontrols.currentPosition = time;
                 repro.Ctlcontrols.play();
@@ -62,6 +64,7 @@ namespace Pro3Play
                 repro.Ctlcontrols.play();
                 Image f = Image.FromFile(ruta);
                 pictureBox1.Image = f;
+                leerLetra(dataGridView1.CurrentRow.Cells[4].Value.ToString());
             }
         }
 
@@ -103,10 +106,9 @@ namespace Pro3Play
                     Image f = Image.FromFile(ruta);
                     pictureBox1.Image = f;
                 }
-
                 catch
                 {
-                    MessageBox.Show("Esta es la primera cancion", "Apps Easy");
+                    MessageBox.Show("Esta es la primera cancion");
                 }
             }
         }
@@ -123,6 +125,7 @@ namespace Pro3Play
 
         private void button5_Click(object sender, EventArgs e)
         {
+            pausa = true;
             repro.Ctlcontrols.pause();
         }
 
@@ -130,8 +133,8 @@ namespace Pro3Play
         {
             File.Delete(@"C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\bin\Debug\Biblioteca");
             File.Delete(dataGridView1.CurrentRow.Cells[2].Value.ToString());
-           string codigo= dataGridView1.CurrentRow.Cells[0].Value.ToString();
-            Biblio.RemoveAll( l => l.Codigo== codigo);
+            string codigo = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+            Biblio.RemoveAll(l => l.Codigo == codigo);
             for (int i = 0; i <= Biblio.Count; i++)
             {
                 GuardarBiblioteca(Biblio[i]);
@@ -140,6 +143,7 @@ namespace Pro3Play
             dataGridView1.DataSource = Biblio;
             dataGridView1.Refresh();
         }
+
         private void GuardarBiblioteca(Biblioteca biblioteca)
         {
             string salida = JsonConvert.SerializeObject(biblioteca);
@@ -147,6 +151,53 @@ namespace Pro3Play
             StreamWriter writer = new StreamWriter(stream);
             writer.WriteLine(salida);
             writer.Close();
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        public void aleatorio() {
+              // get random file from the current list.
+            //var random = new Random();
+            //int index = random.Next(0, Biblio.Count);
+            //return index;
+            //listFiles.SelectedIndex = index;
+        }
+
+        private void timerMedia_Tick(object sender, EventArgs e)
+        {
+
+        }
+
+        private void hScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+            
+        }
+
+        private void vScrollBar1_Scroll(object sender, ScrollEventArgs e)
+        {
+          
+        }
+
+        private void hScrollBar1_Scroll_1(object sender, ScrollEventArgs e)
+        {
+            repro.Ctlcontrols.currentPosition = hScrollBar1.Value;
+        }
+
+        private void vScrollBar1_Scroll_1(object sender, ScrollEventArgs e)
+        {
+              repro.settings.volume = Convert.ToInt32(vScrollBar1.Value);
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+
+        }
+        private void leerLetra(string path)
+        {
+            textBox1.Text = File.ReadAllText(path);
         }
     }
 }

@@ -25,34 +25,35 @@ namespace Pro3Play
             InitializeComponent();
         }
 
+        string direccionPortada;
+        string direccionLetra;
         List<Biblioteca> Biblio = new List<Biblioteca>();
+        int i;
 
         private void button1_Click(object sender, EventArgs e)
         {
-            LeerJson();
-            if (txtURL.Text == "")
+            if (textBox1.Text!=null)
             {
+
+            
+            //LeerJson();
+            letra();
+            if (txtURL.Text == ""){
                 MessageBox.Show("Por favor proporcione la URL del vídeo.");
             }
             else {
                 MainAsync();
+            }
+            }
+            else
+            {
+                MessageBox.Show("ingrese la letra");
             }
         }
 
         private async Task MainAsync()
         {
             Biblioteca bib = new Biblioteca();
-            int i = Biblio.Count() + 1;
-            string nombrearchivo;
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Image f = Image.FromFile(openFileDialog1.FileName);
-                pictureBox2.Image = f;
-                nombrearchivo = openFileDialog1.FileName.ToString();
-                bib.Portada = "C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\" + i + ".png";
-                f.Save("C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\" + i + ".png");
-                //f.Save(nombrearchivo);
-            }
             //Nuevo Cliente de YouTube
             var client = new YoutubeClient();
             //Lee la URL de youtube que le escribimos en el textbox.
@@ -97,7 +98,8 @@ namespace Pro3Play
             //Se puede incluir un checkbox para indicar que de una vez se reproduzca el MP3
             //if (ckbAutoPlay.Checked) 
             //  ReproducirMP3(SaveMP3File);
-            
+            bib.Letra = direccionLetra;
+            bib.Portada = direccionPortada;
             bib.Codigo = i.ToString();
             GuardarBiblioteca(bib);
             return;
@@ -140,7 +142,11 @@ namespace Pro3Play
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+            LeerJson();
+            i = Convert.ToInt16(Biblio.OrderByDescending(l => l.Codigo).ElementAt(0).Codigo.ToString());
+            i = i + 1;
+            // i = Biblio.Count() + 1;
+            // i= Convert.ToInt16( Biblio.OrderBy(l => l.Codigo).ElementAt(0).ToString());
         }
 
         private void descargarVídeoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -167,6 +173,33 @@ namespace Pro3Play
         private void pictureBox2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button2_Click_1(object sender, EventArgs e)
+        {
+            string nombrearchivo;
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Image f = Image.FromFile(openFileDialog1.FileName);
+                pictureBox2.Image = f;
+                nombrearchivo = openFileDialog1.FileName.ToString();
+                direccionPortada = "C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\" + i + ".png";
+                f.Save("C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\" + i + ".png");
+                //f.Save(nombrearchivo);
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+         
+        }
+        private void letra()
+        {
+            direccionLetra = "C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\LETRAS\\" + i + ".txt";
+            FileStream stream = new FileStream(direccionLetra, FileMode.Append, FileAccess.Write);
+            StreamWriter write = new StreamWriter(stream);
+            write.WriteLine(textBox1.Text);
+            write.Close();
         }
     }
 }

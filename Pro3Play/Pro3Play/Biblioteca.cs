@@ -12,6 +12,7 @@ namespace Pro3Play
         string nombre;
         string direccion;
         string portada;
+        string letra;
 
         public string Codigo
         {
@@ -62,6 +63,19 @@ namespace Pro3Play
             set
             {
                 portada = value;
+            }
+        }
+
+        public string Letra
+        {
+            get
+            {
+                return letra;
+            }
+
+            set
+            {
+                letra = value;
             }
         }
     }

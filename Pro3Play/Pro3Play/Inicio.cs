@@ -28,5 +28,11 @@ namespace Pro3Play
             Reproductor frm = new Reproductor();
             frm.ShowDialog();
         }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            Listas frm = new Listas();
+            frm.ShowDialog();
+        }
     }
 }

@@ -22,7 +22,7 @@ namespace Pro3Play
             InitializeComponent();
         }
         string ubicacionCancion;//Variable que contendrá la ruta de la cancion que se está reproduciendo
-
+        
         private void Reproductor_Load(object sender, EventArgs e)
         {
             repro.settings.volume = Convert.ToInt32(vScrollBar1.Value);
@@ -131,17 +131,36 @@ namespace Pro3Play
 
         private void button6_Click(object sender, EventArgs e)
         {
-            File.Delete(@"C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\bin\Debug\Biblioteca");
-            File.Delete(dataGridView1.CurrentRow.Cells[2].Value.ToString());
+            if (checkBox1.Checked==true)
+            {
+                File.Delete(@"C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\bin\Debug\Biblioteca.json");
+                File.Delete(dataGridView1.CurrentRow.Cells[2].Value.ToString());
+                File.Delete(dataGridView1.CurrentRow.Cells[3].Value.ToString());
+                File.Delete(dataGridView1.CurrentRow.Cells[4].Value.ToString());
+                string codigo = dataGridView1.CurrentRow.Cells[0].Value.ToString();
+                Biblio.RemoveAll(l => l.Codigo == codigo);
+                for (int i = 0; i < Biblio.Count; i++)
+                {
+                    GuardarBiblioteca(Biblio[i]);
+                }
+                dataGridView1.DataSource = null;
+                dataGridView1.DataSource = Biblio;
+                dataGridView1.Refresh();
+                checkBox1.Checked = false;
+            }
+            else { 
+            File.Delete(@"C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\bin\Debug\Biblioteca.json");
+            //File.Delete(dataGridView1.CurrentRow.Cells[2].Value.ToString());
             string codigo = dataGridView1.CurrentRow.Cells[0].Value.ToString();
             Biblio.RemoveAll(l => l.Codigo == codigo);
-            for (int i = 0; i <= Biblio.Count; i++)
+            for (int i = 0; i < Biblio.Count; i++)
             {
                 GuardarBiblioteca(Biblio[i]);
             }
             dataGridView1.DataSource = null;
             dataGridView1.DataSource = Biblio;
             dataGridView1.Refresh();
+            }
         }
 
         private void GuardarBiblioteca(Biblioteca biblioteca)
@@ -198,6 +217,11 @@ namespace Pro3Play
         private void leerLetra(string path)
         {
             textBox1.Text = File.ReadAllText(path);
+        }
+
+        private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MessageBox.Show("ya cambio");
         }
     }
 }

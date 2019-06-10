@@ -16,16 +16,29 @@ namespace Pro3Play
     public partial class Reproductor : Form
     {
         bool pausa = false;
+        double duracion;
         List<Biblioteca> Biblio = new List<Biblioteca>();
         public Reproductor()
         {
             InitializeComponent();
         }
-        string ubicacionCancion;//Variable que contendrá la ruta de la cancion que se está reproduciendo
+        string ubicacionCancion;
         
         private void Reproductor_Load(object sender, EventArgs e)
         {
-            repro.settings.volume = Convert.ToInt32(vScrollBar1.Value);
+            button5.Visible = false;
+            tmDuracionActual.Enabled = true; 
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dataGridView1.CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal;
+            dataGridView1.DefaultCellStyle.SelectionBackColor = Color.FromArgb(153, 191, 45);
+            dataGridView1.DefaultCellStyle.SelectionForeColor = Color.WhiteSmoke;
+            dataGridView1.BackgroundColor = Color.White;
+            dataGridView1.EnableHeadersVisualStyles = false;
+            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(20, 25, 72);
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+
+            repro.settings.volume = Convert.ToInt32(trackVolume.Value);
             repro.uiMode = "invisible";
             LeerJson();
         }
@@ -43,13 +56,13 @@ namespace Pro3Play
             reader.Close();
             dataGridView1.DataSource = Biblio;
             dataGridView1.Refresh();
-            //Libro lib = Agregar.OrderBy(al => al.Anio1).First();
-            //textBox5.Text = lib.Anio1.ToString();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            double time = repro.Ctlcontrols.currentPosition; //return always 0 for you, because you pause first and after get the value
+            button1.Visible = false;
+            button5.Visible = true;
+            double time = repro.Ctlcontrols.currentPosition;
             repro.Ctlcontrols.pause();
             if (time > 0 && pausa == true)
             {
@@ -58,36 +71,76 @@ namespace Pro3Play
             }
             else
             {
-                string ruta = dataGridView1.CurrentRow.Cells[3].Value.ToString();
-                repro.URL = dataGridView1.CurrentRow.Cells[2].Value.ToString();
-                ubicacionCancion = dataGridView1.CurrentRow.Cells[2].Value.ToString();
-                repro.Ctlcontrols.play();
-                Image f = Image.FromFile(ruta);
-                pictureBox1.Image = f;
-                leerLetra(dataGridView1.CurrentRow.Cells[4].Value.ToString());
+                if (!checkBox2.Checked)
+                {
+                    string ruta = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+                    repro.URL = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+                    ubicacionCancion = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+                    repro.Ctlcontrols.play();
+                    Image f = Image.FromFile(ruta);
+                    pictureBox1.Image = f;
+                    leerLetra(dataGridView1.CurrentRow.Cells[4].Value.ToString());
+                }
+                else
+                {
+                    GetRandom();
+                }
             }
         }
 
         private void button4_Click(object sender, EventArgs e)
         {
+            button1.Visible = true;
+            button5.Visible = false;
             repro.Ctlcontrols.stop();
         }
 
+        private void GetRandom()
+        {
+            var random = new Random();
+            int index = random.Next(0, dataGridView1.RowCount);
+            dataGridView1.CurrentCell = dataGridView1.Rows[index].Cells[0];
+            string ruta = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+            repro.URL = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+            repro.Ctlcontrols.play();
+            Image f = Image.FromFile(ruta);
+            pictureBox1.Image = f;
+            leerLetra(dataGridView1.CurrentRow.Cells[4].Value.ToString());
+        }
         private void button2_Click(object sender, EventArgs e)
         { 
             try
             {
-                int filaActual = dataGridView1.CurrentRow.Index;
-                dataGridView1.CurrentCell = dataGridView1.Rows[filaActual + 1].Cells[0];
-                string ruta = dataGridView1.CurrentRow.Cells[3].Value.ToString();
-                repro.URL = dataGridView1.CurrentRow.Cells[2].Value.ToString();
-                repro.Ctlcontrols.play();
-                Image f = Image.FromFile(ruta);
-                pictureBox1.Image = f;
+                if (!checkBox2.Checked)
+                {
+                    int totalcanciones = dataGridView1.RowCount;
+                    int filaActual = dataGridView1.CurrentRow.Index;
+                    if (filaActual < totalcanciones-1)
+                    { 
+                        dataGridView1.CurrentCell = dataGridView1.Rows[filaActual + 1].Cells[0];
+                        string ruta = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+                        repro.URL = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+                        repro.Ctlcontrols.play();
+                        Image f = Image.FromFile(ruta);
+                        pictureBox1.Image = f;
+                        leerLetra(dataGridView1.CurrentRow.Cells[4].Value.ToString());
+                    }
+                    else{
+                        dataGridView1.CurrentCell = dataGridView1.Rows[0].Cells[0];
+                        string ruta = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+                        repro.URL = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+                        repro.Ctlcontrols.play();
+                        Image f = Image.FromFile(ruta);
+                        pictureBox1.Image = f;
+                        leerLetra(dataGridView1.CurrentRow.Cells[4].Value.ToString());
+                    }
+                }
+                else{
+                    GetRandom();
+                }
             }
             catch
             {
-                MessageBox.Show("Esta es la ultima cancion de la lista.");
                 tmDuracionActual.Stop();
             }
         }
@@ -98,17 +151,38 @@ namespace Pro3Play
             {
                 try
                 {
-                    int filaActual = dataGridView1.CurrentRow.Index;
-                    dataGridView1.CurrentCell = dataGridView1.Rows[filaActual - 1].Cells[0];
-                    string ruta = dataGridView1.CurrentRow.Cells[3].Value.ToString();
-                    repro.URL = dataGridView1.CurrentRow.Cells[2].Value.ToString();
-                    repro.Ctlcontrols.play();
-                    Image f = Image.FromFile(ruta);
-                    pictureBox1.Image = f;
+                    if (!checkBox2.Checked)
+                    {
+                        int totalcanciones = dataGridView1.RowCount;
+                        int filaActual = dataGridView1.CurrentRow.Index;
+                        if (filaActual == 0)
+                        {
+                            dataGridView1.CurrentCell = dataGridView1.Rows[totalcanciones - 1].Cells[0];
+                            string ruta = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+                            repro.URL = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+                            repro.Ctlcontrols.play();
+                            Image f = Image.FromFile(ruta);
+                            pictureBox1.Image = f;
+                            leerLetra(dataGridView1.CurrentRow.Cells[4].Value.ToString());
+                        }
+                        else
+                        {
+                            dataGridView1.CurrentCell = dataGridView1.Rows[filaActual - 1].Cells[0];
+                            string ruta = dataGridView1.CurrentRow.Cells[3].Value.ToString();
+                            repro.URL = dataGridView1.CurrentRow.Cells[2].Value.ToString();
+                            repro.Ctlcontrols.play();
+                            Image f = Image.FromFile(ruta);
+                            pictureBox1.Image = f;
+                            leerLetra(dataGridView1.CurrentRow.Cells[4].Value.ToString());
+                        }
+                    }
+                    else {
+                        GetRandom();
+                    }
                 }
                 catch
                 {
-                    MessageBox.Show("Esta es la primera cancion");
+                    
                 }
             }
         }
@@ -125,6 +199,8 @@ namespace Pro3Play
 
         private void button5_Click(object sender, EventArgs e)
         {
+            button1.Visible = true;
+            button5.Visible = false;
             pausa = true;
             repro.Ctlcontrols.pause();
         }
@@ -149,8 +225,7 @@ namespace Pro3Play
                 checkBox1.Checked = false;
             }
             else { 
-            File.Delete(@"C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\bin\Debug\Biblioteca.json");
-            //File.Delete(dataGridView1.CurrentRow.Cells[2].Value.ToString());
+            File.Delete(@"C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\bin\Debug\Biblioteca.json");            
             string codigo = dataGridView1.CurrentRow.Cells[0].Value.ToString();
             Biblio.RemoveAll(l => l.Codigo == codigo);
             for (int i = 0; i < Biblio.Count; i++)
@@ -178,11 +253,7 @@ namespace Pro3Play
         }
 
         public void aleatorio() {
-              // get random file from the current list.
-            //var random = new Random();
-            //int index = random.Next(0, Biblio.Count);
-            //return index;
-            //listFiles.SelectedIndex = index;
+
         }
 
         private void timerMedia_Tick(object sender, EventArgs e)
@@ -202,12 +273,12 @@ namespace Pro3Play
 
         private void hScrollBar1_Scroll_1(object sender, ScrollEventArgs e)
         {
-            repro.Ctlcontrols.currentPosition = hScrollBar1.Value;
+
         }
 
         private void vScrollBar1_Scroll_1(object sender, ScrollEventArgs e)
         {
-              repro.settings.volume = Convert.ToInt32(vScrollBar1.Value);
+              
         }
 
         private void button8_Click(object sender, EventArgs e)
@@ -221,7 +292,48 @@ namespace Pro3Play
 
         private void listBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MessageBox.Show("ya cambio");
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            Listas frm = new Listas();
+            frm.Show();
+            this.Close();
+        }
+
+        private void trackVolume_Scroll(object sender, EventArgs e)
+        {
+            repro.settings.volume = Convert.ToInt32(trackVolume.Value);
+        }
+
+        private void trackMedia_Scroll(object sender, EventArgs e)
+        {
+            repro.Ctlcontrols.currentPosition = trackMedia.Value;
+        }
+
+        private void tmDuracionActual_Tick(object sender, EventArgs e)
+        {
+            try
+            {
+                duracion = repro.currentMedia.duration;
+                trackMedia.Maximum = Convert.ToInt32(duracion);
+                double mediatime = repro.Ctlcontrols.currentPosition;
+                trackMedia.Value = Convert.ToInt32(mediatime);
+                if (repro.playState == WMPLib.WMPPlayState.wmppsStopped)
+                {
+                    button1.Visible = true;
+                    button5.Visible = false;
+                }
+            }
+            catch (Exception)
+            {
+
+            }
+        }
+
+        private void checkBox2_CheckedChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -32,6 +32,6 @@ C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\obj\Debug\Pr
 C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\obj\Debug\Pro3Play.Reproductor.resources
 C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\bin\Debug\Interop.WMPLib.dll
 C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\bin\Debug\AxInterop.WMPLib.dll
-C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\obj\Debug\Pro3Play.csprojResolveAssemblyReference.cache
 C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\obj\Debug\Pro3Play.Inicio.resources
 C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\obj\Debug\Pro3Play.Listas.resources
+C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\Pro3Play\obj\Debug\Pro3Play.csprojResolveAssemblyReference.cache

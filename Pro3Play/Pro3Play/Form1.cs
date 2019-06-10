@@ -32,76 +32,59 @@ namespace Pro3Play
 
         private void button1_Click(object sender, EventArgs e)
         {
-            if (textBox1.Text!=null)
+            if (textBox1.Text != null)
             {
-
-            
-            //LeerJson();
-            letra();
-            if (txtURL.Text == ""){
-                MessageBox.Show("Por favor proporcione la URL del vídeo.");
+                letra();
+                if (txtURL.Text == "") {
+                    MessageBox.Show("Por favor proporcione la URL del vídeo.");
+                }
+                else if (pictureBox2.Image == null) {
+                    MessageBox.Show("Por favor suba una portada para el MP3.");
+                }
+                else if (textBox1.Text == "")
+                {
+                    MessageBox.Show("Por favor ingrese la letra de la canción.");
+                }
+                else {
+                    MessageBox.Show("El vídeo se está convirtiendo, por favor espere...");
+                    MainAsync();
+                    }   
+                }
             }
-            else {
-                MainAsync();
-            }
-            }
-            else
-            {
-                MessageBox.Show("ingrese la letra");
-            }
-        }
 
         private async Task MainAsync()
         {
             Biblioteca bib = new Biblioteca();
-            //Nuevo Cliente de YouTube
             var client = new YoutubeClient();
-            //Lee la URL de youtube que le escribimos en el textbox.
             var videoId = NormalizeVideoId(txtURL.Text);
             var video = await client.GetVideoAsync(videoId);
             var streamInfoSet = await client.GetVideoMediaStreamInfosAsync(videoId);
-            //Busca la mejor resolución en la que está disponible el video.
             var streamInfo = streamInfoSet.Muxed.WithHighestVideoQuality();
-            //Compone el nombre que tendrá el video en base a su título y extensión.
             var fileExtension = streamInfo.Container.GetFileExtension();
             var fileName = $"{video.Title}.{fileExtension}";
-            //TODO: Reemplazar los caractéres ilegales del nombre
-            //fileName = RemoveIllegalFileNameChars(fileName);
-            //Activa el timer para que el proceso funcione de forma asincrona
             tmrVideo.Enabled = true;
-            // mensajes indicando que el video se está descargando
-            label4.Text = "Descargando el video...";
-            //TODO: se pude usar una barra de progreso para ver el avance
-            //using (var progress = new ProgressBar());
-            //Empieza la descarga.
             await client.DownloadMediaStreamAsync(streamInfo, fileName);
-            //Ya descargado se inicia la conversión a MP3
             var Convert = new NReco.VideoConverter.FFMpegConverter();
-            //Especificar la carpeta donde se van a guardar los archivos, recordar la \ del final
             String SaveMP3File = @"C:\Users\Carlos Escobar\Source\Repos\programacion\Pro3Play\MP3\" + fileName.Replace(".mp4", ".mp3");
             bib.Direccion = SaveMP3File;
             bib.Nombre = fileName;
-            //Guarda el archivo convertido en la ubicación indicada
             Convert.ConvertMedia(fileName, SaveMP3File, "mp3");
-            //Si el checkbox de solo audio está chequeado, borrar el mp4 despues de la conversión
             if (ckbAudio.Checked)
             {
                 File.Delete(fileName);
             }
-            //Indicar que se terminó la conversion
-            MessageBox.Show("Vídeo convertido correctamente.");
             label4.Text = "";
             txtURL.Text = "";
+            textBox1.Text = "";
+            pictureBox2.Image = null;
             tmrVideo.Enabled = false;
-            //TODO: Cargar el MP3 al reproductor o a la lista de reproducción
-            //CargarMP3s();
-            //Se puede incluir un checkbox para indicar que de una vez se reproduzca el MP3
-            //if (ckbAutoPlay.Checked) 
-            //  ReproducirMP3(SaveMP3File);
             bib.Letra = direccionLetra;
             bib.Portada = direccionPortada;
             bib.Codigo = i.ToString();
             GuardarBiblioteca(bib);
+            MessageBox.Show("Vídeo convertido correctamente. Será redireccionado a la Biblioteca.");
+            Reproductor rep = new Reproductor();
+            rep.Show();
             return;
         }
 
@@ -116,10 +99,6 @@ namespace Pro3Play
                 Biblio.Add(libroLeido);
             }
             reader.Close();
-            //dataGridView2.DataSource = Agregar;
-            //dataGridView2.Refresh();
-            //Libro lib = Agregar.OrderBy(al => al.Anio1).First();
-            //textBox5.Text = lib.Anio1.ToString();
         }
 
         private void GuardarBiblioteca(Biblioteca biblioteca)
@@ -130,7 +109,6 @@ namespace Pro3Play
             writer.WriteLine(salida);
             writer.Close();
         }
-
 
         private static string NormalizeVideoId(string input)
         {
@@ -145,8 +123,6 @@ namespace Pro3Play
             LeerJson();
             i = Convert.ToInt16(Biblio.OrderByDescending(l => l.Codigo).ElementAt(0).Codigo.ToString());
             i = i + 1;
-            // i = Biblio.Count() + 1;
-            // i= Convert.ToInt16( Biblio.OrderBy(l => l.Codigo).ElementAt(0).ToString());
         }
 
         private void descargarVídeoToolStripMenuItem_Click(object sender, EventArgs e)
@@ -156,8 +132,7 @@ namespace Pro3Play
 
         private void reproductorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            Reproductor repro = new Reproductor();
-            repro.ShowDialog();
+            
         }
 
         private void guardarPortadaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -185,7 +160,6 @@ namespace Pro3Play
                 nombrearchivo = openFileDialog1.FileName.ToString();
                 direccionPortada = "C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\" + i + ".png";
                 f.Save("C:\\Users\\Carlos Escobar\\Source\\Repos\\programacion\\Pro3Play\\PORTADAS\\" + i + ".png");
-                //f.Save(nombrearchivo);
             }
         }
 

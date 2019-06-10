@@ -26,14 +26,13 @@ namespace Pro3Play
         private void button2_Click(object sender, EventArgs e)
         {
             Reproductor frm = new Reproductor();
-            frm.ShowDialog();
+            frm.Show();
         }
 
         private void button3_Click(object sender, EventArgs e)
         {
             Listas frm = new Listas();
-            frm.ShowDialog();
-
+            frm.Show();
         }
     }
 }
